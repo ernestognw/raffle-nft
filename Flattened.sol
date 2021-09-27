@@ -1,7 +1,8 @@
-// SPDX-License-Identifier: MIT
 // Sources flattened with hardhat v2.6.4 https://hardhat.org
 
 // File @openzeppelin/contracts/utils/Context.sol@v3.4.0
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -29,6 +30,8 @@ abstract contract Context {
 
 // File @openzeppelin/contracts/introspection/IERC165.sol@v3.4.0
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.0 <0.8.0;
 
 /**
@@ -54,6 +57,8 @@ interface IERC165 {
 
 
 // File @openzeppelin/contracts/token/ERC721/IERC721.sol@v3.4.0
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.2 <0.8.0;
 
@@ -184,6 +189,8 @@ interface IERC721 is IERC165 {
 
 // File @openzeppelin/contracts/token/ERC721/IERC721Metadata.sol@v3.4.0
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.2 <0.8.0;
 
 /**
@@ -210,6 +217,8 @@ interface IERC721Metadata is IERC721 {
 
 
 // File @openzeppelin/contracts/token/ERC721/IERC721Enumerable.sol@v3.4.0
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.2 <0.8.0;
 
@@ -240,6 +249,8 @@ interface IERC721Enumerable is IERC721 {
 
 // File @openzeppelin/contracts/token/ERC721/IERC721Receiver.sol@v3.4.0
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.0 <0.8.0;
 
 /**
@@ -262,6 +273,8 @@ interface IERC721Receiver {
 
 
 // File @openzeppelin/contracts/introspection/ERC165.sol@v3.4.0
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -316,6 +329,8 @@ abstract contract ERC165 is IERC165 {
 
 
 // File @openzeppelin/contracts/math/SafeMath.sol@v3.4.0
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -533,6 +548,8 @@ library SafeMath {
 
 // File @openzeppelin/contracts/utils/Address.sol@v3.4.0
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.2 <0.8.0;
 
 /**
@@ -723,6 +740,8 @@ library Address {
 
 
 // File @openzeppelin/contracts/utils/EnumerableSet.sol@v3.4.0
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -1023,6 +1042,8 @@ library EnumerableSet {
 
 // File @openzeppelin/contracts/utils/EnumerableMap.sol@v3.4.0
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.0 <0.8.0;
 
 /**
@@ -1291,6 +1312,8 @@ library EnumerableMap {
 
 // File @openzeppelin/contracts/utils/Strings.sol@v3.4.0
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.0 <0.8.0;
 
 /**
@@ -1326,6 +1349,8 @@ library Strings {
 
 
 // File @openzeppelin/contracts/token/ERC721/ERC721.sol@v3.4.0
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -1800,6 +1825,8 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
 
 // File @openzeppelin/contracts/utils/Counters.sol@v3.4.0
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.0 <0.8.0;
 
 /**
@@ -1839,6 +1866,8 @@ library Counters {
 
 
 // File @chainlink/contracts/src/v0.6/vendor/SafeMathChainlink.sol@v0.2.2
+
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
 /**
@@ -1949,6 +1978,8 @@ library SafeMathChainlink {
 
 
 // File @chainlink/contracts/src/v0.6/interfaces/LinkTokenInterface.sol@v0.2.2
+
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
 interface LinkTokenInterface {
@@ -1968,6 +1999,8 @@ interface LinkTokenInterface {
 
 
 // File @chainlink/contracts/src/v0.6/VRFRequestIDBase.sol@v0.2.2
+
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
 contract VRFRequestIDBase {
@@ -2010,6 +2043,8 @@ contract VRFRequestIDBase {
 
 
 // File @chainlink/contracts/src/v0.6/VRFConsumerBase.sol@v0.2.2
+
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
 /** ****************************************************************************
@@ -2208,6 +2243,8 @@ abstract contract VRFConsumerBase is VRFRequestIDBase {
 
 
 // File contracts/Raffle.sol
+
+// SPDX-License-Identifier: MIT
 pragma solidity 0.6.6;
 
 
@@ -2254,15 +2291,13 @@ contract Raffle is ERC721, VRFConsumerBase {
             block.timestamp > revealDate,
             "Reveal date hasn't been reached"
         );
+        require(_idCounter.current() >= maxSupply, "Winner can only be picked when collection is completed");
 
         require(LINK.balanceOf(address(this)) >= LinkFee, "Not enough LINK");
         return requestRandomness(keyHash, LinkFee);
     }
 
-    function fulfillRandomness(bytes32, uint256 randomness)
-        internal
-        override
-    {
+    function fulfillRandomness(bytes32, uint256 randomness) internal override {
         require(!revealed, "Winner has already been revealed");
         revealed = true;
         winnerRandomSeed = randomness;

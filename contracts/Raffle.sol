@@ -47,15 +47,13 @@ contract Raffle is ERC721, VRFConsumerBase {
             block.timestamp > revealDate,
             "Reveal date hasn't been reached"
         );
+        require(_idCounter.current() >= maxSupply, "Winner can only be picked when collection is completed");
 
         require(LINK.balanceOf(address(this)) >= LinkFee, "Not enough LINK");
         return requestRandomness(keyHash, LinkFee);
     }
 
-    function fulfillRandomness(bytes32, uint256 randomness)
-        internal
-        override
-    {
+    function fulfillRandomness(bytes32, uint256 randomness) internal override {
         require(!revealed, "Winner has already been revealed");
         revealed = true;
         winnerRandomSeed = randomness;
