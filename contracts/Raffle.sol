@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.2;
+pragma solidity 0.6.6;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -25,6 +25,7 @@ contract Raffle is ERC721, VRFConsumerBase {
         0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
 
     constructor(uint256 _maxSupply, uint256 _revealDate)
+        public
         ERC721("Raffle", "RFF")
         VRFConsumerBase(VRFCoordinator, LinkToken)
     {
@@ -41,20 +42,17 @@ contract Raffle is ERC721, VRFConsumerBase {
         _safeMint(to, current);
     }
 
-    function pickWinner() public {
+    function pickWinner() public returns (bytes32 requestId) {
         require(
             block.timestamp > revealDate,
             "Reveal date hasn't been reached"
         );
 
-        require(
-            LINK.balanceOf(address(this)) >= fee,
-            "Not enough LINK"
-        );
+        require(LINK.balanceOf(address(this)) >= LinkFee, "Not enough LINK");
         return requestRandomness(keyHash, LinkFee);
     }
 
-    function fulfillRandomness(bytes32 requestId, uint256 randomness)
+    function fulfillRandomness(bytes32, uint256 randomness)
         internal
         override
     {
