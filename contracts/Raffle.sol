@@ -15,14 +15,14 @@ contract Raffle is ERC721, VRFConsumerBase {
     uint256 public revealDate;
     bool public revealed;
 
-    // DATA FOR MUMBAI TESTNET
+    // DATA FOR RINKEBY TESTNET
     bytes32 internal constant keyHash =
-        0xAA77729D3466CA35AE8D28B3BBAC7CC36A5031EFDC430821C02BC31A238AF445;
-    uint256 internal constant LinkFee = 1 * 10**14; // 0.0001 LINK
+        0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311;
+    uint256 internal constant LinkFee = 1 * 10**17; // 0.01 LINK
     address private constant VRFCoordinator =
-        0x8C7382F9D8f56b33781fE506E897a4F1e2d17255;
+        0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B;
     address private constant LinkToken =
-        0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
+        0x01BE23585060835E02B77ef475b0Cc51aA1e0709;
 
     constructor(uint256 _maxSupply, uint256 _revealDate)
         public
