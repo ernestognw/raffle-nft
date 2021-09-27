@@ -8,7 +8,7 @@ import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 contract Raffle is ERC721, VRFConsumerBase {
     using Counters for Counters.Counter;
 
-    uint256 private _winnerRandom;
+    uint256 public winnerRandomSeed;
     Counters.Counter private _tokenIdCounter;
     Counters.Counter private _idCounter;
     uint256 public maxSupply;
@@ -56,12 +56,14 @@ contract Raffle is ERC721, VRFConsumerBase {
         internal
         override
     {
-        _winnerRandom = randomness;
+        require(!revealed, "Winner has already been revealed");
+        revealed = true;
+        winnerRandomSeed = randomness;
     }
 
     function winner() public view returns (uint256) {
         require(revealed, "Winner has not been revealed yet");
 
-        return _winnerRandom % _idCounter.current();
+        return winnerRandomSeed % _idCounter.current();
     }
 }
